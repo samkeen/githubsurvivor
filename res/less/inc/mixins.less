@@ -1,0 +1,25 @@
+.clearfix (@clear: both) {
+  &:after {
+    content: '.';
+    display: block;
+    clear: @clear;
+    visibility: hidden;
+    height: 0;
+  }
+}
+
+.animation-name (@name) {
+  animation-name: @name;
+  -moz-animation-name: @name;
+  -webkit-animation-name: @name;
+}
+.animation-duration (@duration) {
+  animation-duration: @duration;
+  -moz-animation-duration: @duration;
+  -webkit-animation-duration: @duration;
+}
+.animation-iteration-count (@iteration-count) {
+  animation-iteration-count: @iteration-count;
+  -moz-animation-iteration-count: @iteration-count;
+  -webkit-animation-iteration-count: @iteration-count;
+}

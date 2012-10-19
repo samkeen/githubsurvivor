@@ -1,0 +1,37 @@
+@import 'core.less';
+
+.report {
+  @vpad: 0.6em;
+  @hpad: 0.8em;
+
+  font-size: 60%;
+
+  table { border-collapse: collapse; }
+  th, td { margin: 0; }
+  th, td, a { padding: @vpad @hpad; }
+  th {
+    text-align: left;
+    border-bottom: 2px black solid;
+  }
+  tbody td {
+    border-bottom: 1px black dotted;
+    //&:first-child { border-left: none; }
+  }
+  td a {
+    text-decoration: none;
+    display: block;
+    margin: -@vpad -@hpad;
+    &:hover {
+      background: #00C;
+      color: white;
+    }
+  }
+}
+
+#old-bugs {
+  .opened, .assignee {
+    white-space: nowrap;
+  }
+}
+
+

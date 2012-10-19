@@ -1,0 +1,7 @@
+#!/bin/bash
+
+HERE=$(cd $(dirname $0); pwd -P)
+ROOT=$(dirname $HERE)
+ENV=$ROOT/env
+
+$ENV/bin/python -m survivor.web.__init__

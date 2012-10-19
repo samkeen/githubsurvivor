@@ -1,0 +1,40 @@
+#!/bin/bash
+
+HERE=$(cd $(dirname $0); pwd -P)
+ROOT=$(dirname $HERE)
+ENV=$ROOT/env
+
+while getopts "c" arg; do
+    case $arg in
+        c) clean=1 ;;
+    esac
+done
+
+if [[ $clean ]]; then
+    rm -rf $ENV
+fi
+
+if [[ ! -d $ENV ]]; then
+    # (Re)create Python virtual environment
+    virtualenv -p python2.7 $ROOT/env
+fi
+
+# Install/update dependencies
+$ROOT/env/bin/pip install -r $ROOT/requirements.txt
+
+# Link packages in src into site-packages
+for srcdir in $ROOT/src/*; do
+    target=$ENV/lib/python2.7/site-packages/$(basename $srcdir)
+    if [[ ! -a $target ]]; then
+        ln -s $srcdir $target
+    fi
+done
+
+# Prepare example configuration
+exampleconf="$ROOT/config.example.py"
+conf="$ROOT/config.py"
+
+if [[ ! -a $conf ]]; then
+		cp $exampleconf $conf
+		echo "Please edit $conf to reflect your configuration settings"
+fi

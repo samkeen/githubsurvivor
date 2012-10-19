@@ -1,0 +1,29 @@
+{% extends 'base.jinja2' %}
+
+{% block head %}
+<link rel="stylesheet" href="/styles/report.css" />
+{% endblock %}
+
+{% block body %}	
+<div class="report" id="old-bugs">
+	<h1>Bugs opened before &gt;{{ date | format_datetime('%d %b %Y') }}&lt;</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Bug</th>
+				<th>Opened</th>
+				<th>Assignee</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for issue in issues %}
+			<tr>
+				<td class="issue"><a href="{{ issue.url }}">{{ issue.title }}</a></td>
+				<td class="opened">{{ issue.opened | format_datetime('%Y-%m-%d') }}</td>
+				<td class="assignee">{{ issue.assignee.login }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

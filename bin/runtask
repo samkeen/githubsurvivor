@@ -1,0 +1,9 @@
+#!/bin/bash
+
+HERE=$(cd $(dirname $0); pwd -P)
+ROOT=$(dirname $HERE)
+ENV=$ROOT/env
+
+task=$1; shift
+
+$ENV/bin/python -m survivor.tasks.$task $@

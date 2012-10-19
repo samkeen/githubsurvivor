@@ -1,0 +1,121 @@
+{% extends 'base.jinja2' %}
+
+{% block head %}
+	<link rel="stylesheet" href="/styles/dashboard.css" />
+	<script src="/js/jquery-1.7.2.min.js"></script>
+	<script src="/js/raphael.js"></script>
+	<script src="/js/dashboard.js"></script>
+{% endblock %}
+
+{% block body %}
+<div id="vertical-wrapper">
+
+	<div id="horizontal-wrapper" class="container-fluid">
+
+		<!-- Banner -->
+		<div id="banner" class="row-fluid panel">
+			<div class="span12">
+				<hr class="stripe red" />
+				<hr class="stripe orange" />
+				<hr class="stripe gold" />
+				<img class="logo" src="/img/logo.png" />
+				<div class="info">
+					<span class="company">99designs</span>
+					<span class="date">{{ today | format_datetime('%a.%d%m%y') }}</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Leaderboards -->
+		{% macro leaderboard(id, title, members) %}
+		<div class="leaderboard" id="{{ id }}">
+			<h2><span>{{ title }}</span></h2>
+			<ol>
+				{% for member, count in members %}
+				<li>
+					<img class="avatar" src="//www.gravatar.com/avatar/{{ member.gravatar_id }}?s=52" />
+					<span class="name">{{ member.login }}</span>
+					<span class="count">{{ count }}</span>
+				</li>
+				{% endfor %}
+			</ol>
+		</div>
+		{% endmacro %}
+
+		<div id="leaderboards" class="row-fluid">
+			<div class="span6">
+				{{ leaderboard('top-closers', 'Hall of Fame', ranked[-5:] | reverse) }}
+			</div>
+			<div class="span6">
+				{{ leaderboard('worst-closers', 'Hall of Shame', ranked[:5]) }}
+			</div>
+		</div>
+
+		<div id="charts" class="row-fluid panel">
+
+			<div class="span12">
+				<hr class="stripe red" />
+				<hr class="stripe orange" />
+				<hr class="stripe gold" />
+			</div>
+
+			<div class="span4">
+				<table id="bug-rate-data" summary="Bugs opened/closed">
+					<thead>
+						<tr>
+							<th>Period end</th>
+							<th># bugs opened</th>
+							<th># bugs closed</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for row in opened_closed_bugs %}
+						<tr>
+							<td>{{ row.period.end | format_datetime }}</td>
+							<td>{{ row.opened }}</td>
+							<td>{{ row.closed }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="span4">
+				<table id="open-bug-data" summary="Open bugs">
+					<thead>
+						<tr>
+							<th>Period end</th>
+							<th># open bugs</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for row in open_bugs %}
+						<tr>
+							<td>{{ row.period.end | format_datetime }}</td>
+							<td>{{ row.count }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+
+			<div id="current-stats" class="span4">
+				<p class="title">Open bugs</p>
+				<p class="open-bug-count">
+					{{ open_bug_count }}
+				</p>
+				<div class="delta {% if open_bug_count < prev_open_bug_count %}neg{% else %}pos{% endif %}">
+					{{ (open_bug_count - prev_open_bug_count) | abs }}
+				</div>
+			</div>
+
+		</div>
+
+		<div id="footer" class="row-fluid">
+			GitHub Survivor TM & Copyright 1987 99designs dev team
+			<span class="start">&lt;Insert coin to begin playing&gt;</span>
+		</div>
+
+	</div>
+</div>
+{% endblock %}

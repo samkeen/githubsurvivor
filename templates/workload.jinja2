@@ -1,0 +1,27 @@
+{% extends 'base.jinja2' %}
+
+{% block head %}
+<link rel="stylesheet" href="/styles/report.css" />
+{% endblock %}
+
+{% block body %}	
+<div class="report">
+	<h1>Developer workload</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Developer</th>
+				<th>Assigned</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for developer, assigned in workload | sort(attribute=1, reverse=True) %}
+			<tr>
+				<td class="developer"><a href="{{ developer.assigned_issues_url() }}">{{ developer.login }}</a></td>
+				<td class="assigned">{{ assigned }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

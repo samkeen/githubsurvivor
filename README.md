@@ -13,12 +13,12 @@ This dashboard is a good way to keep bugs on people's minds, and to show
 at-a-glance information about the current bug situation.
 
 GitHub Survivor scrapes your bug data using the [GitHub API][2] and stores it in
-a Mongo database for quick querying. It shows, at a glance:
+your local Mongo DB for subsequent querying. It shows, at a glance:
 
- * Top/bottom bug closers for the current reporting period (default: our 2-week-long sprint)
+ * Top/bottom bug closers for the current reporting period (week, month or sprint)
  * Current open bug count
  * Net difference in open bugs since the last reporting period
- * Charts (yay!)
+ * Charts (yay!):
     * Number of bugs opened/closed for the last 12 reporting periods
     * Number of open bugs over the last 12 reporting periods
 
@@ -51,7 +51,7 @@ This command might satisfy the above dependencies on Ubuntu:
 
     $ bin/runtask sync
 
-You probably want to run this periodically, e.g. in an hourly cron job.
+You'll probably want to run this periodically, e.g. in an hourly cron job.
 
 ### Run
 

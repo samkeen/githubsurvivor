@@ -115,13 +115,6 @@ def unassigned():
     issues = Issue.objects.unassigned()
     return render_template('unassigned.jinja2', issues=issues)
 
-### Stats
-
-@app.route('/stats')
-def stats():
-    "Display a miscellaneous collection of useful bug stats."
-    return render_template('stats.jinja2')
-
 ### Initialisation
 
 if __name__ == "__main__":

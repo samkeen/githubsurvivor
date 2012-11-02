@@ -7,7 +7,7 @@ from flask import Flask, render_template, request
 from jinja2 import FileSystemLoader
 
 import survivor
-from survivor import reporting, timeutils
+from survivor import reporting, timeutils, config
 from survivor.models import User, Issue
 from survivor.web import template
 
@@ -39,7 +39,7 @@ def reporting_period(unit, anchor, offset=0):
 def dashboard():
     today = timeutils.today()
 
-    reporting_unit = request_arg('reporting_unit', default='sprint')
+    reporting_unit = request_arg('reporting_unit', default=config['reporting.window'])
     previous_periods = int(request_arg('previous_periods', default=12))
 
     reporting_periods = [reporting_period(reporting_unit, today, -i)
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     app.jinja_loader = FileSystemLoader(os.path.join(app_root, 'templates'))
     app.static_folder = '%s/res/static' % app_root
 
-    try: app.debug = survivor.config['flask.debug']
+    try: app.debug = config['flask.debug']
     except KeyError: pass
 
-    app.run(**survivor.config['flask.settings'])
+    app.run(**config['flask.settings'])

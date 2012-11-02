@@ -20,6 +20,14 @@ config = {
         # 'alecsloman',
     ),
 
+    # Reporting options
+    # Size of reporting window: one of week, sprint, month
+    'reporting.window': 'month',
+    # Uncomment & edit these when reporting.window == sprint
+    # 'reporting.sprint_start_weekday': 'monday',
+    # 'reporting.sprint_length_weeks': 2,
+    # 'reporting.first_sprint_week_of_year': 1,
+
     # Whether to display the interactive debugger on error
     # Don't enable this in publicly-accessible environments
     'flask.debug': False,

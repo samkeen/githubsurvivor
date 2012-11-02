@@ -1,13 +1,16 @@
 """
-Report generation helpers.
+Reporting helpers
 
-The functions defined here take some date within a reporting period and
-return the start and end dates of that period.
+These functions take some date within a reporting period and return the start
+and end dates of that period.
 """
 
 from collections import namedtuple
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta, FR, SU
+from dateutil.relativedelta import relativedelta
+from dateutil import relativedelta as days
+
+from survivor import config
 
 Period = namedtuple('Period', 'start end')
 
@@ -15,17 +18,20 @@ Period = namedtuple('Period', 'start end')
 
 def weekly_reporting_period(anchor, offset=0):
     # Find Sunday in the given week
-    end = anchor + relativedelta(weeks=offset) + relativedelta(weekday=SU)
+    end = anchor + relativedelta(weeks=offset) + relativedelta(weekday=days.SU)
     return Period(end - relativedelta(weeks=1), end)
 
 ### Sprint reporting
 
-# TODO: move these into configuration
-sprint_start_weekday = FR
-sprint_length_weeks = 2
-first_sprint_week_of_year = 1
+def _sprint_start_weekday():
+    day_name = config['reporting.sprint_start_weekday']
+    return getattr(days, day_name[:2].upper())
 
-def sprint_end(anchor):
+def _sprint_end(anchor):
+    sprint_start_weekday = _sprint_start_weekday()
+    sprint_length_weeks = config['reporting.sprint_length_weeks']
+    first_sprint_week_of_year = config['reporting.first_sprint_week_of_year']
+
     # Find the next instance of the sprint start/end weekday
     # This will either be the end date of a sprint, or the equivalent
     # weekday partway through a sprint
@@ -39,7 +45,8 @@ def sprint_end(anchor):
     return anchor + relativedelta(weeks=sprint_weeks_remaining)
 
 def sprint_reporting_period(anchor, offset=0):
-    end = sprint_end(anchor) + relativedelta(weeks=offset * sprint_length_weeks)
+    sprint_length_weeks = config['reporting.sprint_length_weeks']
+    end = _sprint_end(anchor) + relativedelta(weeks=offset * sprint_length_weeks)
     return Period(end - relativedelta(weeks=sprint_length_weeks), end)
 
 ### Monthly reporting

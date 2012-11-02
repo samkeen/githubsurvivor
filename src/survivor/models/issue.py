@@ -5,12 +5,6 @@ from mongoengine.queryset import QuerySet
 
 from survivor.models import User
 
-class Comment(EmbeddedDocument):
-    pass
-
-class Label(EmbeddedDocument):
-    pass
-
 class IssueQuerySet(QuerySet):
     """
     Custom issue queries.
@@ -50,5 +44,3 @@ class Issue(Document):
     opened = DateTimeField(required=True)
     updated = DateTimeField(required=True)
     url = URLField()
-    # labels = ListField(EmbeddedDocumentField(Label))
-    # comments = ListField(EmbeddedDocumentField(Comment))

@@ -50,5 +50,5 @@ class User(Document):
         return not whitelist or self.login in whitelist
 
     def assigned_issues_url(self):
-        return 'https://github.com/%s/%s/issues/assigned/%s' % (config['github.repo'],
-                                                                self.login)
+        return 'https://github.com/%s/issues/assigned/%s' % (config['github.repo'],
+                                                             self.login)

@@ -62,7 +62,7 @@ def sync(types, verbose=False):
     if 'users' in types:
         User.drop_collection()
         # FIXME: can this come from config?
-        for github_user in account.get_repo('contests').get_collaborators():
+        for github_user in account.get_repo(repo_name).get_collaborators():
             try:
                 user = create_user(github_user)
             except:
